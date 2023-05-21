@@ -7,19 +7,19 @@ use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\PasswordHasher\PasswordHasherInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class RegistrationController extends AbstractController
 {
     public function __construct(
-        private readonly PasswordHasherInterface $passwordHasher,
+        private readonly UserPasswordHasherInterface $passwordHasher,
         private readonly UserRepository          $userRepository,
     )
     {
     }
 
-    #[Route('/api/user', name: 'app_registration', methods: ['POST'])]
+    #[Route('/api/register', name: 'app_registration', methods: ['POST'])]
     public function index(Request $request): JsonResponse
     {
         $decoded = json_decode($request->getContent());
@@ -27,7 +27,8 @@ class RegistrationController extends AbstractController
         $plaintextPassword = $decoded->password;
 
         $user = new User();
-        $hashedPassword = $this->passwordHasher->hash(
+        $hashedPassword = $this->passwordHasher->hashPassword(
+            $user,
             $plaintextPassword
         );
         $user->setPassword($hashedPassword);

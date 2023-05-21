@@ -1,0 +1,20 @@
+### Send POST request with json body
+POST http://127.0.0.1:8081/api/register
+Content-Type: application/json
+
+{
+  "email": "pea.lilian@gmail.com",
+  "password": "asdasd"
+}
+
+### Send POST request with json body
+POST http://127.0.0.1:8081/api/login_check
+Content-Type: application/json
+
+{
+"username": "pea.lilian@gmail.com",
+"password": "asdasd"
+}
+
+
+
